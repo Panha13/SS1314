@@ -8,6 +8,7 @@ use App\Http\Controllers\SlideshowController;
 use App\Http\Controllers\CartController;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------

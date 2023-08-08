@@ -18,4 +18,5 @@ class MyHomeController extends Controller
         $categories = Category::all();
         return view('home', compact('slideshows', 'featuredproducts', 'categories'));
     }
+ 
 }
