@@ -8,8 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
-
-
+use Illuminate\Support\Facades\Log;
 use Image;
 class SlideshowController extends Controller
 {
@@ -21,12 +20,15 @@ class SlideshowController extends Controller
     }
     function enableDisable(Request $request,String $id,String $action)
     {
-        $slideshow =Slideshow::find($id);
-        $slideshow ->enable = ($action =='1' ? 0 : 1);
+        $slideshow = Slideshow::find($id);
+        $slideshow->enable = ($action =='1' ? 0 : 1);
         $slideshow->save();
         $slideshows = Slideshow::orderBy('ssorder', 'asc')->paginate(2);
         
-        return redirect()->route('admin.slideshow', ['page'=>$request->page]);
+        return response()->json([
+            'slideshow' => $slideshow,
+            'slideshows' => $slideshows
+        ]);
     }
     function moveUpDown(Request $request ,String $id, String $action)
     {
@@ -131,7 +133,40 @@ class SlideshowController extends Controller
     }
     function update(Request $request)
     {
-        
+        $id = $request->txtssid;
+        $slideshow = Slideshow::find($id);
+        if($slideshow){
+            $slideshow->title = $request->txttitle;
+            $slideshow->subtitle = $request->txtsubtitle;
+            $slideshow->text = $request->tatext;
+            $slideshow->link = $request->txtlink;
+            $slideshow->enable = 0;
+            if(isset($request->chkenable)){
+                $slideshow->enable = 1;
+            }
+            if($request->hasFile('fileimg')){
+                $ext = $request->file('fileimg')->getClientOriginalExtension();
+                $iname = time() . "." . $ext;
+                $pathname = public_path('images/slideshows');
+                //Thumbnail
+                $image = Image::make($request->file('fileimg'));
+                $image -> resize(50, 50);
+                $image -> save($pathname . "/thumbnail/" . $iname);
+
+                //Move image
+                $request->file('fileimg')->move($pathname, $iname);
+
+                //Delete old image
+                $oimage = $slideshow->img;
+                unlink($pathname . "/thumbnail/" . $oimage);
+                unlink($pathname . "/" . $oimage);
+
+                $slideshow->img = $iname;
+            }
+            
+            $slideshow->save();
+        }
+        return redirect('/admins/slideshow')->with('success', 'Data is successfully updated');;
     }
     
 }

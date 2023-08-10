@@ -17,6 +17,8 @@ class MyHomeController extends Controller
         $featuredproducts = Product::where('featured', '1')->get();
         $categories = Category::all();
         return view('home', compact('slideshows', 'featuredproducts', 'categories'));
+        
+        
     }
- 
+    
 }

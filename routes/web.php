@@ -40,6 +40,8 @@ Route::get('/admins/slideshow/form', [SlideshowController::class, 'form'])->name
 Route::post('/admins/slideshow/add', [SlideshowController::class, 'add'])->name('admin.slideshow.add');
 Route::get('/admins/slideshow/edit/{id}', [SlideshowController::class, 'edit'])->name('admin.slideshow.edit');
 Route::post('/admins/slideshow/update', [SlideshowController::class, 'update'])->name('admin.slideshow.update');
+
+
 // Route::get('language/{locale}', function ($locale) {
 //     app()->setLocale($locale);
 //     session()->put('locale', $locale);
