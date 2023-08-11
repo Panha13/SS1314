@@ -22,9 +22,8 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', [MyHomeController::class, 'index']);
-Route::get('/shop', function () {
-    return view('shop');
-});
+Route::get('/shop', [MyHomeController::class, 'shop']);
+
 Route::get('/contact', function () {
     return view('contact');
 });
@@ -40,7 +39,7 @@ Route::get('/admins/slideshow/form', [SlideshowController::class, 'form'])->name
 Route::post('/admins/slideshow/add', [SlideshowController::class, 'add'])->name('admin.slideshow.add');
 Route::get('/admins/slideshow/edit/{id}', [SlideshowController::class, 'edit'])->name('admin.slideshow.edit');
 Route::post('/admins/slideshow/update', [SlideshowController::class, 'update'])->name('admin.slideshow.update');
-
+Route::get('/my-data', 'MyHomeController@getData');
 
 // Route::get('language/{locale}', function ($locale) {
 //     app()->setLocale($locale);

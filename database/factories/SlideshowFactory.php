@@ -21,7 +21,7 @@ class SlideshowFactory extends Factory
             "text" => $this->faker->sentence(3),
             "link" => $this->faker->sentence(3),
             "enable" => '1',
-            "img" => $this->faker->randomElement(['girl1.jpg','girl2.jpg','girl3.jpg']),
+            "img" => $this->faker->randomElement(['girl1.png','girl2.png','girl3.png']),
             "ssorder" => $this->faker->numberBetween(1,100),
         ];
     }

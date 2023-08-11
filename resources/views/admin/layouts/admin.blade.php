@@ -15,9 +15,6 @@
 	</div>
 
 	<script src={{URL::asset("admin/js/app.js")}}></script>
-
-	
-
 </body>
 
 </html>

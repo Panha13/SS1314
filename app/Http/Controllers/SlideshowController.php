@@ -14,7 +14,7 @@ class SlideshowController extends Controller
 {
     function listAll()
     {
-        $slideshows = Slideshow::orderBy('ssorder', 'asc')->paginate(2);
+        $slideshows = Slideshow::orderBy('ssorder', 'asc')->paginate(3);
 
         return view('admin.slideshow.index', compact('slideshows'));
     }
@@ -23,34 +23,30 @@ class SlideshowController extends Controller
         $slideshow = Slideshow::find($id);
         $slideshow->enable = ($action =='1' ? 0 : 1);
         $slideshow->save();
-        $slideshows = Slideshow::orderBy('ssorder', 'asc')->paginate(2);
         
         return response()->json([
             'slideshow' => $slideshow,
-            'slideshows' => $slideshows
         ]);
     }
-    function moveUpDown(Request $request ,String $id, String $action)
+    
+    function moveUpDown(Request $request, $id, $action)
     {
         $slideshow = Slideshow::find($id);
+        $slideshows = Slideshow::orderBy('ssorder')->get();
         $upperSlideshow = null;
-        if($action == "1")
-        {
-            $upperSlideshow = Slideshow::where('ssorder','<', $slideshow->ssorder)->orderBy('ssorder','desc')->first();
-            if($upperSlideshow != null )
-            {
+
+        if ($action == "1") {
+            $upperSlideshow = Slideshow::where('ssorder', '<', $slideshow->ssorder)->orderBy('ssorder', 'desc')->first();
+            if ($upperSlideshow != null) {
                 $tmp = $slideshow->ssorder;
                 $slideshow->ssorder = $upperSlideshow->ssorder;
                 $upperSlideshow->ssorder = $tmp;
                 $slideshow->save();
                 $upperSlideshow->save();
             }
-        }
-        else
-        {
-            $lowerSlideshow = Slideshow::where('ssorder','>',$slideshow->ssorder)->orderBy('ssorder','asc')->first();
-            if($lowerSlideshow != null)
-            {
+        } else {
+            $lowerSlideshow = Slideshow::where('ssorder', '>', $slideshow->ssorder)->orderBy('ssorder', 'asc')->first();
+            if ($lowerSlideshow != null) {
                 $tmp = $slideshow->ssorder;
                 $slideshow->ssorder = $lowerSlideshow->ssorder;
                 $lowerSlideshow->ssorder = $tmp;
@@ -58,8 +54,18 @@ class SlideshowController extends Controller
                 $lowerSlideshow->save();
             }
         }
-        return redirect()->route('admin.slideshow', ['page'=>$request->page]);
+
+        // Update the ssorder values in the database
+        foreach ($slideshows as $index => $slide) {
+            $slide->ssorder = $index + 1;
+            $slide->save();
+        }
+
+        // Return a JSON response containing the new order of slideshow entries
+        return response()->json(['slideshows' => $slideshows]);
     }
+
+
     function delete(Request $request, $id)
     {
         $slideshow=Slideshow::find($id);

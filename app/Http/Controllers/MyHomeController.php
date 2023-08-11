@@ -17,8 +17,19 @@ class MyHomeController extends Controller
         $featuredproducts = Product::where('featured', '1')->get();
         $categories = Category::all();
         return view('home', compact('slideshows', 'featuredproducts', 'categories'));
-        
-        
+    }
+    function shop()
+    {
+        $categories = Category::all();
+        return view('shop')->with('categories', $categories);
+    }
+    function getData()
+    {
+        // Retrieve the updated data from the database
+        $data = MyModel::all();
+
+        // Return the data as a JSON response
+        return response()->json($data);
     }
     
 }
