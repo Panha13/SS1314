@@ -65,7 +65,6 @@ class SlideshowController extends Controller
         return response()->json(['slideshows' => $slideshows]);
     }
 
-
     function delete(Request $request, $id)
     {
         $slideshow=Slideshow::find($id);
@@ -83,10 +82,10 @@ class SlideshowController extends Controller
             {
                 unlink($thumbnail);
             }
-            return redirect()->route('admin.slideshow', ['page'=>$request->page])->with("success", "A slideshow has been deleted successfully!");
+            return response()->json(['success' => true, 'message' => 'A slideshow has been deleted successfully!']);
         }
         else
-        return redirect()->route('admin.slideshow', ['page'=>$request->page])->with("fail", "Slideshow not found!");
+        return response()->json(['success' => false, 'message' => 'Slideshow not found!']);
     }
 
     function form(Request $request)

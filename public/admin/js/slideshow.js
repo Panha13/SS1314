@@ -26,43 +26,56 @@ function toggleSlideshow(element) {
     });
 }
 
-$(document).ready(function() {
-    // Add click event listeners to the move up and move down icons
-    $('.moveUpDown').on('click', function(e) {
-        e.preventDefault();
-        var row = $(this).closest('tr');
-        var isLastRowOnPage = row.is(':last-child');
-        var isFirstRowOnPage = row.is(':first-child');
-        if ($(this).children('svg').hasClass('feather-arrow-up')) {
-            row.insertBefore(row.prev());
-            // console.log('up');
-        } else if ($(this).children('svg').hasClass('feather-arrow-down')) {
-            row.insertAfter(row.next());
-            // console.log('down');
-        }
-        // Send an AJAX request to the server-side route for handling move up and move down actions
-        var url = $(this).attr('href');
-        $.ajax({
-            type: 'GET',
-            url: url,
-            success: function(data) {
-                // console.log(isFirstRowOnPage);
-                // console.log(isLastRowOnPage);
-                // console.log(e.target);
-                // console.log($(e.target).find('svg').hasClass('feather-arrow-down'));
-                // Navigate to the second page if the last slideshow on the first page was moved down
-                if (isLastRowOnPage && $(e.target).hasClass('feather-arrow-down')) {
-                    if ($('.page-item.active').next().find('.page-link').length && !$('.page-item.active').next().hasClass('disabled')) {
-                        window.location.href = $('.page-item.active').next().find('.page-link').attr('href');
-                    }
-                } 
-                if (isFirstRowOnPage && $(e.target).hasClass('feather-arrow-up')) {
-                    if ($('.page-item.active').prev().find('.page-link').length && !$('.page-item.active').prev().hasClass('disabled')) {
-                        window.location.href = $('.page-item.active').prev().find('.page-link').attr('href');
-                    }
+function moveUpDown(event, element) {
+    event.preventDefault();
+    var row = $(element).closest('tr');
+    var isLastRowOnPage = row.is(':last-child');
+    var isFirstRowOnPage = row.is(':first-child');
+    if ($(element).children('svg').hasClass('feather-arrow-up')) {
+        row.insertBefore(row.prev());
+        // console.log('up');
+    } else if ($(element).children('svg').hasClass('feather-arrow-down')) {
+        row.insertAfter(row.next());
+        // console.log('down');
+    }
+    // Send an AJAX request to the server-side route for handling move up and move down actions
+    var url = $(element).attr('href');
+    $.ajax({
+        type: 'GET',
+        url: url,
+        success: function(data) {
+            // Debugging logs and navigation logic | console.log(isFirstRowOnPage) | console.log(isLastRowOnPage) | console.log(e.target) | console.log($(e.target).find('svg').hasClass('feather-arrow-down'))
+            // Navigate to the second page if the last slideshow on the first page was moved down
+            if (isLastRowOnPage && $(element).children('svg').hasClass('feather-arrow-down')) {
+                if ($('.page-item.active').next().find('.page-link').length && !$('.page-item.active').next().hasClass('disabled')) {
+                    window.location.href = $('.page-item.active').next().find('.page-link').attr('href');
+                }
+            } 
+            if (isFirstRowOnPage && $(element).children('svg').hasClass('feather-arrow-up')) {
+                if ($('.page-item.active').prev().find('.page-link').length && !$('.page-item.active').prev().hasClass('disabled')) {
+                    window.location.href = $('.page-item.active').prev().find('.page-link').attr('href');
                 }
             }
-        });
+        }
     });
-});
+}
 
+function deleteSlideshow(event, element) {
+    event.preventDefault();
+    var id = $(element).data('id');
+    var page = $(element).data('page');
+    var token = $('meta[name="csrf-token"]').attr('content');
+    $.ajax({
+        url: '/admins/slideshow/delete/' + id,
+        type: 'DELETE',
+        data: {_token: token},
+        success: function (response) {
+            if (response.success) {
+                alert(response.message);
+                window.location.href = '/admins/slideshow?page=' + page;
+            } else {
+                alert(response.message);
+            }
+        }
+    });
+}

@@ -49,15 +49,15 @@
                                     data-feather="{{ $slideshow['enable'] == 1 ? 'eye' : 'eye-off' }}"></i>
                             </a>
 
-                            <a class="text-decoration-none moveUpDown" href="{{ route('admin.slideshow.moveupdown', ['id' => $slideshow['ssid'], 'action' => '1', 'page' => $slideshows->currentPage()]) }}">
+                            <a class="text-decoration-none" href="{{ route('admin.slideshow.moveupdown', ['id' => $slideshow['ssid'], 'action' => '1', 'page' => $slideshows->currentPage()]) }}" onclick="moveUpDown(event, this)">
                                 <i class="align-middle" data-feather="arrow-up"></i>
                             </a>
-                            <a class="text-decoration-none moveUpDown" href="{{ route('admin.slideshow.moveupdown', ['id' => $slideshow['ssid'], 'action' => '0', 'page' => $slideshows->currentPage()]) }}">
+                            <a class="text-decoration-none" href="{{ route('admin.slideshow.moveupdown', ['id' => $slideshow['ssid'], 'action' => '0', 'page' => $slideshows->currentPage()]) }}" onclick="moveUpDown(event, this)">
                                 <i class="align-middle" data-feather="arrow-down"></i>
                             </a>
 
-                            <a class="text-decoration-none" href="#" data-toggle="modal"
-                                data-target="#deleteModal{{ $slideshow['ssid'] }}">
+                            <a class="text-decoration-none" href="#" data-id="{{ $slideshow['ssid'] }}" data-page="{{ $slideshows->currentPage() }}" 
+                                onclick="deleteSlideshow(event, this)">
                                 <i class="align-middle" data-feather="trash"></i>
                             </a>
                             <a class="text-decoration-none"

@@ -7,6 +7,7 @@ use App\Models\Slideshow;
 use App\Models\Product;
 use App\Models\Category;
 
+
 class MyHomeController extends Controller
 {
     function index()
