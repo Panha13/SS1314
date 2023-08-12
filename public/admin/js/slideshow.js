@@ -1,4 +1,46 @@
-ffff
+function listAlldata() {
+    $.ajax({
+        url: '/admins/fetch',
+        type: 'GET',
+        dataType: "json",
+        success: function(response) {
+            console.log(response);
+            $('tbody').html("");
+            $.each(response.data, function(index, slideshow) {
+                var tr = $('<tr></tr>');
+                tr.append('<td>' + ((response.current_page - 1) * response.per_page + index + 1) + '</td>');
+                tr.append('<td><img src="' + slideshow.img + '"></td>');
+                tr.append('<td>' + slideshow.title + '</td>');
+                tr.append('<td>' + slideshow.subtitle + '</td>');
+                tr.append('<td>' + slideshow.text + '</td>');
+                tr.append('<td>' + slideshow.link + '</td>');
+                var td = $('<td></td>');
+                td.append('<a class="text-decoration-none" href="javascript:void(0)" data-id="' + slideshow.ssid +
+                    '" data-action="' + slideshow.enable + '" data-page="' + response.current_page +
+                    '" onclick="toggleSlideshow(this)"><i class="align-middle" data-feather="' +
+                    (slideshow.enable == 1 ? 'eye' : 'eye-off') + '"></i></a>');
+                td.append('<a class="text-decoration-none" href="/admin/slideshow/moveupdown/' +
+                    slideshow.ssid + '/1/' + response.current_page +
+                    '" onclick="moveUpDown(event, this)"><i class="align-middle" data-feather="arrow-up"></i></a>');
+                td.append('<a class="text-decoration-none" href="/admin/slideshow/moveupdown/' +
+                    slideshow.ssid + '/0/' + response.current_page +
+                    '" onclick="moveUpDown(event, this)"><i class="align-middle" data-feather="arrow-down"></i></a>');
+                td.append('<a class="text-decoration-none" href="#" data-toggle="modal" data-target="#deleteModal' +
+                    slideshow.ssid + '"><i class="align-middle" data-feather="trash"></i></a>');
+                td.append('<a class="text-decoration-none" href="/admin/slideshow/edit/' +
+                    slideshow.ssid + '"><i class="align-middle" data-feather="edit"></i></a>');
+                tr.append(td);
+                $('tbody').append(tr);
+            });
+        }
+    });
+    
+}
+// call function listAll
+$(document).ready(function() {
+    listAlldata();
+});
+
 function toggleSlideshow(element) {
     // console.log('element:', element);
     var id = $(element).data('id');
@@ -61,22 +103,20 @@ function moveUpDown(event, element) {
     });
 }
 
-function deleteSlideshow(event, element) {
-    event.preventDefault();
-    var id = $(element).data('id');
-    var page = $(element).data('page');
-    var token = $('meta[name="csrf-token"]').attr('content');
+$('a[data-toggle="modal"]').on('click', function(e) {
+    e.preventDefault();
+    var id = $(this).data('target').replace('#deleteModal', '');
     $.ajax({
         url: '/admins/slideshow/delete/' + id,
         type: 'DELETE',
-        data: {_token: token},
-        success: function (response) {
-            if (response.success) {
-                alert(response.message);
-                window.location.href = '/admins/slideshow?page=' + page;
+        success: function(result) {
+            if (result.success) {
+                // Remove the slideshow from the view
+                $('#slideshow-' + id).remove();
             } else {
-                alert(response.message);
+                // Show an error message
+                alert('Slideshow not found!');
             }
         }
     });
-}
+});

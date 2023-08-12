@@ -33,7 +33,7 @@
                     <th>Action</th>
                 </thead>
                 <tbody>
-                @foreach ($slideshows as $index => $slideshow)
+                {{-- @foreach ($slideshows as $index => $slideshow)
                     <tr>
                         <td>{{ ($slideshows->currentPage() - 1) * $slideshows->perPage() + $loop->iteration }}</td>
                         <td><img src={{ URL::asset('images/slideshows/thumbnail/' . $slideshow->img) }}></td>
@@ -89,13 +89,13 @@
                         </div>
                     </div>
                     <!--End Modal -->
-                @endforeach
+                @endforeach --}}
                 </tbody>
             </table>
 
-            <div class="d-flex justify-content-center">
+            {{-- <div class="d-flex justify-content-center">
                 {{ $slideshows->links('pagination::bootstrap-4') }}
-            </div>
+            </div> --}}
         </div>
     </main>
 @endsection

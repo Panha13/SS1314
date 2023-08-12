@@ -11,13 +11,19 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Image;
 class SlideshowController extends Controller
-{
-    function listAll()
+{   
+    function index()
     {
-        $slideshows = Slideshow::orderBy('ssorder', 'asc')->paginate(3);
-
-        return view('admin.slideshow.index', compact('slideshows'));
+        return view('admin.slideshow.index');   
     }
+    function fetchSlideshow()
+    {
+        // $slideshows = Slideshow::orderBy('ssorder', 'asc')->paginate(3);
+        $slideshows = Slideshow::all();
+        // return response()->json($slideshows);
+        return response()->json(['slideshow'=>$slideshows,]);
+    }
+    
     function enableDisable(Request $request,String $id,String $action)
     {
         $slideshow = Slideshow::find($id);

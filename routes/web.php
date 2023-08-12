@@ -31,7 +31,8 @@ Route::get('/admins', [AdminController::class, 'index'])->middleware('is_admin')
 //Route::get('/login', [AdminController::class, 'login'])->name('login');
 Auth::routes();
 
-Route::get('/admins/slideshow', [SlideshowController::class, 'listAll'])->name('admin.slideshow')->middleware('is_admin');
+Route::get('/admins/slideshow', [SlideshowController::class, 'index'])->name('admin.slideshow')->middleware('is_admin');
+Route::get('/admins/fetch', [SlideshowController::class, 'fetchSlideshow'])->name('admin.slideshow.fetch')->middleware('is_admin');
 Route::get('/admins/slideshow/endisable/{id}/{action}', [SlideshowController::class, 'enableDisable'])->name('admin.slideshow.enabledisable');
 Route::get('/admins/slideshow/moveupdown/{id}/{action}', [SlideshowController::class, 'moveUpDown'])->name('admin.slideshow.moveupdown');
 Route::get('/admins/slideshow/delete/{id}', [SlideshowController::class, 'delete'])->name('admin.slideshow.delete');
