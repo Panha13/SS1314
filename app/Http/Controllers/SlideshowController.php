@@ -12,11 +12,15 @@ use Illuminate\Support\Facades\Log;
 use Image;
 class SlideshowController extends Controller
 {
-    function listAll()
+    function index (){
+        return view('admin.slideshow.index');
+    }
+
+    function getSlideshow()
     {
         $slideshows = Slideshow::orderBy('ssorder', 'asc')->paginate(3);
 
-        return view('admin.slideshow.index', compact('slideshows'));
+        return view('admin.slideshow.slideshowList', compact('slideshows'));
     }
     function enableDisable(Request $request,String $id,String $action)
     {
@@ -82,11 +86,12 @@ class SlideshowController extends Controller
             {
                 unlink($thumbnail);
             }
-            return response()->json(['success' => true, 'message' => 'A slideshow has been deleted successfully!']);
+            return redirect()->route('admin.slideshow', ['page'=>$request->page])->with("success", "A slideshow has been deleted successfully!");
         }
         else
-        return response()->json(['success' => false, 'message' => 'Slideshow not found!']);
+        return redirect()->route('admin.slideshow', ['page'=>$request->page])->with("fail", "Slideshow not found!");
     }
+
 
     function form(Request $request)
     {

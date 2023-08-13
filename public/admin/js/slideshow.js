@@ -1,3 +1,9 @@
+function showSlideshow(){ 
+    $.get("{{ URL::to('show') }}", function(data){ 
+        $('#slideshowBody').empty().html(data);
+    })
+}
+
 function toggleSlideshow(element) {
     // console.log('element:', element);
     var id = $(element).data('id');
@@ -60,22 +66,3 @@ function moveUpDown(event, element) {
     });
 }
 
-function deleteSlideshow(event, element) {
-    event.preventDefault();
-    var id = $(element).data('id');
-    var page = $(element).data('page');
-    var token = $('meta[name="csrf-token"]').attr('content');
-    $.ajax({
-        url: '/admins/slideshow/delete/' + id,
-        type: 'DELETE',
-        data: {_token: token},
-        success: function (response) {
-            if (response.success) {
-                alert(response.message);
-                window.location.href = '/admins/slideshow?page=' + page;
-            } else {
-                alert(response.message);
-            }
-        }
-    });
-}
