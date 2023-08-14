@@ -35,9 +35,8 @@
                 <tbody id="slideshowBody">
                 </tbody>
             </table>
-
-            <div class="d-flex justify-content-center">
-                {{ $slideshows->links() }}
+            <div id="pagenation">
+                {{ $slideshow->links('vendor.pagination.bootstrap-4') }}
             </div>
         </div>
     </main>

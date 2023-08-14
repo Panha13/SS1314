@@ -18,10 +18,15 @@ class SlideshowController extends Controller
 
     function getSlideshow()
     {
-        $slideshows = Slideshow::orderBy('ssorder', 'asc')->paginate(10);
+        $slideshows = Slideshow::orderBy('ssorder', 'asc')->paginate(2);
 
-        return view('admin.slideshow.slideshowList', compact('slideshows'));
+        // return view('admin.slideshow.slideshowList', compact('slideshows'));
+        return response()->json([
+            'data' => view('admin.slideshow.slideshowList', compact('slideshows'))->render(),
+            'pagination' => (string) $slideshows->links()
+        ]);
     }
+
     function enableDisable(Request $request,String $id,String $action)
     {
         $slideshow = Slideshow::find($id);

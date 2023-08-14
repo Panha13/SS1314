@@ -7,7 +7,8 @@ function showSlideshow(){
         url: '/admins/slideshow/getSlideshow',
         type: 'GET',
         success: function(data) {
-            $('#slideshowBody').html(data);
+            $('#slideshowBody').html(data.data);
+            $('#pagenation').html(data.pagination);
             feather.replace();
         }
     });
