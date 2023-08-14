@@ -1,10 +1,33 @@
 $(document).ready(function() {
     showSlideshow();
+    // Add event listener for click event on pagination links
+    pagination();
+    handlePopstate();
 });
 
-function showSlideshow(){ 
+function handlePopstate() {
+    window.addEventListener('popstate', function(event) {
+        showSlideshow();
+    });
+}
+
+function pagination() {
+    $(document).on('click', '.pagination a', function(event) {
+        event.preventDefault();
+        var page = $(this).attr('href').split('page=')[1];
+        showSlideshow(page);
+        history.pushState(null, null, '?page=' + page);
+    });
+}
+
+
+function showSlideshow(page) {
+    if (!page) {
+        var urlParams = new URLSearchParams(window.location.search);
+        page = urlParams.get('page') || 1;
+    }
     $.ajax({
-        url: '/admins/slideshow/getSlideshow',
+        url: '/admins/slideshow/getSlideshow?page=' + page,
         type: 'GET',
         success: function(data) {
             $('#slideshowBody').html(data.data);
@@ -13,6 +36,7 @@ function showSlideshow(){
         }
     });
 }
+
 
 function toggleSlideshow(element) {
     // console.log('element:', element);
@@ -47,13 +71,6 @@ function moveUpDown(event, element) {
     var row = $(element).closest('tr');
     var isLastRowOnPage = row.is(':last-child');
     var isFirstRowOnPage = row.is(':first-child');
-    if ($(element).children('svg').hasClass('feather-arrow-up')) {
-        row.insertBefore(row.prev());
-        // console.log('up');
-    } else if ($(element).children('svg').hasClass('feather-arrow-down')) {
-        row.insertAfter(row.next());
-        // console.log('down');
-    }
     // Send an AJAX request to the server-side route for handling move up and move down actions
     var url = $(element).attr('href');
     $.ajax({
@@ -64,31 +81,17 @@ function moveUpDown(event, element) {
             // Navigate to the second page if the last slideshow on the first page was moved down
             if (isLastRowOnPage && $(element).children('svg').hasClass('feather-arrow-down')) {
                 if ($('.page-item.active').next().find('.page-link').length && !$('.page-item.active').next().hasClass('disabled')) {
-                    window.location.href = $('.page-item.active').next().find('.page-link').attr('href');
+                    $('.page-item.active').next().find('.page-link')[0].click();
                 }
-            } 
-            if (isFirstRowOnPage && $(element).children('svg').hasClass('feather-arrow-up')) {
+            } else if (isFirstRowOnPage && $(element).children('svg').hasClass('feather-arrow-up')) {
                 if ($('.page-item.active').prev().find('.page-link').length && !$('.page-item.active').prev().hasClass('disabled')) {
-                    window.location.href = $('.page-item.active').prev().find('.page-link').attr('href');
+                    $('.page-item.active').prev().find('.page-link')[0].click();
                 }
+            }else{
+                showSlideshow();
             }
         }
     });
 }
 
-$(document).on('click', '.delete-button', function(e) {
-    e.preventDefault();
-    var id = $(this).data('id');
-    var page = $(this).data('page');
-    $.ajax({
-        url: '/admins/slideshow/delete/' + id,
-        type: 'POST',
-        success: function(data) {
-            if (data.success) {
-                showSlideshow();
-            } else {
-                alert(data.message);
-            }
-        }
-    });
-});
+

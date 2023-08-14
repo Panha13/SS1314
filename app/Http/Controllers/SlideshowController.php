@@ -19,11 +19,12 @@ class SlideshowController extends Controller
     function getSlideshow()
     {
         $slideshows = Slideshow::orderBy('ssorder', 'asc')->paginate(2);
+        $slideshows->setPath('/admins/slideshow');
 
         // return view('admin.slideshow.slideshowList', compact('slideshows'));
         return response()->json([
             'data' => view('admin.slideshow.slideshowList', compact('slideshows'))->render(),
-            'pagination' => (string) $slideshows->links()
+            'pagination' => (string) $slideshows->links('vendor.pagination.bootstrap-4'),
         ]);
     }
 
