@@ -18,7 +18,7 @@ class SlideshowController extends Controller
 
     function getSlideshow()
     {
-        $slideshows = Slideshow::orderBy('ssorder', 'asc')->paginate(3);
+        $slideshows = Slideshow::orderBy('ssorder', 'asc')->paginate(10);
 
         return view('admin.slideshow.slideshowList', compact('slideshows'));
     }
@@ -71,26 +71,24 @@ class SlideshowController extends Controller
 
     function delete(Request $request, $id)
     {
-        $slideshow=Slideshow::find($id);
-        if($slideshow!=null)
-        {
+        $slideshow = Slideshow::find($id);
+        if ($slideshow != null) {
             $slideshow->delete();
-            $iname=$slideshow['img'];
-            $image=public_path() . '/images/slideshows/' . $iname;
-            $thumbnail=public_path() . '/images/slideshows/thumbnail/' . $iname;
-            if(file_exists($image))
-            {
+            $iname = $slideshow['img'];
+            $image = public_path() . '/images/slideshows/' . $iname;
+            $thumbnail = public_path() . '/images/slideshows/thumbnail/' . $iname;
+            if (file_exists($image)) {
                 unlink($image);
             }
-            if(file_exists($thumbnail))
-            {
+            if (file_exists($thumbnail)) {
                 unlink($thumbnail);
             }
-            return redirect()->route('admin.slideshow', ['page'=>$request->page])->with("success", "A slideshow has been deleted successfully!");
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Slideshow not found!']);
         }
-        else
-        return redirect()->route('admin.slideshow', ['page'=>$request->page])->with("fail", "Slideshow not found!");
     }
+
 
 
     function form(Request $request)

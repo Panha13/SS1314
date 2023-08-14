@@ -32,13 +32,12 @@
                     <th>Link</th>
                     <th>Action</th>
                 </thead>
-                <tbody id="#slideshowBody">
-                
+                <tbody id="slideshowBody">
                 </tbody>
             </table>
 
             <div class="d-flex justify-content-center">
-                {{ $slideshows->links('pagination::bootstrap-4') }}
+                {{ $slideshows->links() }}
             </div>
         </div>
     </main>

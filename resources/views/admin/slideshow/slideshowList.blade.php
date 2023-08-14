@@ -31,27 +31,6 @@
             </a>
         </td>
     </tr>
-    <!-- Modal -->
-    <div class="modal fade" id="deleteModal{{ $slideshow['ssid'] }}" tabindex="-1" role="dialog"
-        aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to delete this slideshow?
-                </div>
-                <div class="modal-footer">
-                    <a href="{{ route('admin.slideshow.delete', ['id' => $slideshow['ssid'], 'page' => $slideshows->currentPage()]) }}"
-                        class="btn btn-primary">Yes</a>
-                    <a class="btn btn-secondary" data-dismiss="modal">No</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--End Modal -->
+    
 @endforeach
+

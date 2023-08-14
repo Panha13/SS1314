@@ -1,7 +1,16 @@
+$(document).ready(function() {
+    showSlideshow();
+});
+
 function showSlideshow(){ 
-    $.get("{{ URL::to('show') }}", function(data){ 
-        $('#slideshowBody').empty().html(data);
-    })
+    $.ajax({
+        url: '/admins/slideshow/getSlideshow',
+        type: 'GET',
+        success: function(data) {
+            $('#slideshowBody').html(data);
+            feather.replace();
+        }
+    });
 }
 
 function toggleSlideshow(element) {
@@ -66,3 +75,19 @@ function moveUpDown(event, element) {
     });
 }
 
+$(document).on('click', '.delete-button', function(e) {
+    e.preventDefault();
+    var id = $(this).data('id');
+    var page = $(this).data('page');
+    $.ajax({
+        url: '/admins/slideshow/delete/' + id,
+        type: 'POST',
+        success: function(data) {
+            if (data.success) {
+                showSlideshow();
+            } else {
+                alert(data.message);
+            }
+        }
+    });
+});
