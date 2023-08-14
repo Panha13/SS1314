@@ -1,45 +1,42 @@
-function listAlldata() {
+$(document).ready(function() {
+    showSlideshow();
+    // Add event listener for click event on pagination links
+    pagination();
+    handlePopstate();
+});
+
+function handlePopstate() {
+    window.addEventListener('popstate', function(event) {
+        showSlideshow();
+    });
+}
+
+function pagination() {
+    $(document).on('click', '.pagination a', function(event) {
+        event.preventDefault();
+        var page = $(this).attr('href').split('page=')[1];
+        showSlideshow(page);
+        history.pushState(null, null, '?page=' + page);
+    });
+}
+
+
+function showSlideshow(page) {
+    if (!page) {
+        var urlParams = new URLSearchParams(window.location.search);
+        page = urlParams.get('page') || 1;
+    }
     $.ajax({
-        url: '/admins/fetch',
+        url: '/admins/slideshow/getSlideshow?page=' + page,
         type: 'GET',
-        dataType: "json",
-        success: function(response) {
-            console.log(response);
-            $('tbody').html("");
-            $.each(response.data, function(index, slideshow) {
-                var tr = $('<tr></tr>');
-                tr.append('<td>' + ((response.current_page - 1) * response.per_page + index + 1) + '</td>');
-                tr.append('<td><img src="' + slideshow.img + '"></td>');
-                tr.append('<td>' + slideshow.title + '</td>');
-                tr.append('<td>' + slideshow.subtitle + '</td>');
-                tr.append('<td>' + slideshow.text + '</td>');
-                tr.append('<td>' + slideshow.link + '</td>');
-                var td = $('<td></td>');
-                td.append('<a class="text-decoration-none" href="javascript:void(0)" data-id="' + slideshow.ssid +
-                    '" data-action="' + slideshow.enable + '" data-page="' + response.current_page +
-                    '" onclick="toggleSlideshow(this)"><i class="align-middle" data-feather="' +
-                    (slideshow.enable == 1 ? 'eye' : 'eye-off') + '"></i></a>');
-                td.append('<a class="text-decoration-none" href="/admin/slideshow/moveupdown/' +
-                    slideshow.ssid + '/1/' + response.current_page +
-                    '" onclick="moveUpDown(event, this)"><i class="align-middle" data-feather="arrow-up"></i></a>');
-                td.append('<a class="text-decoration-none" href="/admin/slideshow/moveupdown/' +
-                    slideshow.ssid + '/0/' + response.current_page +
-                    '" onclick="moveUpDown(event, this)"><i class="align-middle" data-feather="arrow-down"></i></a>');
-                td.append('<a class="text-decoration-none" href="#" data-toggle="modal" data-target="#deleteModal' +
-                    slideshow.ssid + '"><i class="align-middle" data-feather="trash"></i></a>');
-                td.append('<a class="text-decoration-none" href="/admin/slideshow/edit/' +
-                    slideshow.ssid + '"><i class="align-middle" data-feather="edit"></i></a>');
-                tr.append(td);
-                $('tbody').append(tr);
-            });
+        success: function(data) {
+            $('#slideshowBody').html(data.data);
+            $('#pagenation').html(data.pagination);
+            feather.replace();
         }
     });
-    
 }
-// call function listAll
-$(document).ready(function() {
-    listAlldata();
-});
+
 
 function toggleSlideshow(element) {
     // console.log('element:', element);
@@ -74,13 +71,6 @@ function moveUpDown(event, element) {
     var row = $(element).closest('tr');
     var isLastRowOnPage = row.is(':last-child');
     var isFirstRowOnPage = row.is(':first-child');
-    if ($(element).children('svg').hasClass('feather-arrow-up')) {
-        row.insertBefore(row.prev());
-        // console.log('up');
-    } else if ($(element).children('svg').hasClass('feather-arrow-down')) {
-        row.insertAfter(row.next());
-        // console.log('down');
-    }
     // Send an AJAX request to the server-side route for handling move up and move down actions
     var url = $(element).attr('href');
     $.ajax({
@@ -91,32 +81,35 @@ function moveUpDown(event, element) {
             // Navigate to the second page if the last slideshow on the first page was moved down
             if (isLastRowOnPage && $(element).children('svg').hasClass('feather-arrow-down')) {
                 if ($('.page-item.active').next().find('.page-link').length && !$('.page-item.active').next().hasClass('disabled')) {
-                    window.location.href = $('.page-item.active').next().find('.page-link').attr('href');
+                    $('.page-item.active').next().find('.page-link')[0].click();
                 }
-            } 
-            if (isFirstRowOnPage && $(element).children('svg').hasClass('feather-arrow-up')) {
+            } else if (isFirstRowOnPage && $(element).children('svg').hasClass('feather-arrow-up')) {
                 if ($('.page-item.active').prev().find('.page-link').length && !$('.page-item.active').prev().hasClass('disabled')) {
-                    window.location.href = $('.page-item.active').prev().find('.page-link').attr('href');
+                    $('.page-item.active').prev().find('.page-link')[0].click();
                 }
+            }else{
+                showSlideshow();
             }
         }
     });
 }
 
-$('a[data-toggle="modal"]').on('click', function(e) {
-    e.preventDefault();
-    var id = $(this).data('target').replace('#deleteModal', '');
+function deleteSlideshow(event, element) {
+    event.preventDefault();
+    var id = $(element).data('id');
+    var page = $(element).data('page');
+    var token = $('meta[name="csrf-token"]').attr('content');
     $.ajax({
         url: '/admins/slideshow/delete/' + id,
         type: 'DELETE',
-        success: function(result) {
-            if (result.success) {
-                // Remove the slideshow from the view
-                $('#slideshow-' + id).remove();
+        data: {_token: token},
+        success: function (response) {
+            if (response.success) {
+                alert(response.message);
+                window.location.href = '/admins/slideshow?page=' + page;
             } else {
-                // Show an error message
-                alert('Slideshow not found!');
+                alert(response.message);
             }
         }
     });
-});
+}

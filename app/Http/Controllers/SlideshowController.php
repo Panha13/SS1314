@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Image;
 class SlideshowController extends Controller
+<<<<<<< HEAD
 {   
     function index()
     {
@@ -24,6 +25,25 @@ class SlideshowController extends Controller
         return response()->json(['slideshow'=>$slideshows,]);
     }
     
+=======
+{
+    function index (){
+        return view('admin.slideshow.index');
+    }
+
+    function getSlideshow()
+    {
+        $slideshows = Slideshow::orderBy('ssorder', 'asc')->paginate(2);
+        $slideshows->setPath('/admins/slideshow');
+
+        // return view('admin.slideshow.slideshowList', compact('slideshows'));
+        return response()->json([
+            'data' => view('admin.slideshow.slideshowList', compact('slideshows'))->render(),
+            'pagination' => (string) $slideshows->links('vendor.pagination.bootstrap-4'),
+        ]);
+    }
+
+>>>>>>> e649f5a4a1fa6921ef02e9ae2df5cf078ea20e22
     function enableDisable(Request $request,String $id,String $action)
     {
         $slideshow = Slideshow::find($id);
@@ -73,26 +93,25 @@ class SlideshowController extends Controller
 
     function delete(Request $request, $id)
     {
-        $slideshow=Slideshow::find($id);
-        if($slideshow!=null)
-        {
+        $slideshow = Slideshow::find($id);
+        if ($slideshow != null) {
             $slideshow->delete();
-            $iname=$slideshow['img'];
-            $image=public_path() . '/images/slideshows/' . $iname;
-            $thumbnail=public_path() . '/images/slideshows/thumbnail/' . $iname;
-            if(file_exists($image))
-            {
+            $iname = $slideshow['img'];
+            $image = public_path() . '/images/slideshows/' . $iname;
+            $thumbnail = public_path() . '/images/slideshows/thumbnail/' . $iname;
+            if (file_exists($image)) {
                 unlink($image);
             }
-            if(file_exists($thumbnail))
-            {
+            if (file_exists($thumbnail)) {
                 unlink($thumbnail);
             }
-            return response()->json(['success' => true, 'message' => 'A slideshow has been deleted successfully!']);
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Slideshow not found!']);
         }
-        else
-        return response()->json(['success' => false, 'message' => 'Slideshow not found!']);
     }
+
+
 
     function form(Request $request)
     {
