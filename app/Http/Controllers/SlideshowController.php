@@ -11,21 +11,6 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Image;
 class SlideshowController extends Controller
-<<<<<<< HEAD
-{   
-    function index()
-    {
-        return view('admin.slideshow.index');   
-    }
-    function fetchSlideshow()
-    {
-        // $slideshows = Slideshow::orderBy('ssorder', 'asc')->paginate(3);
-        $slideshows = Slideshow::all();
-        // return response()->json($slideshows);
-        return response()->json(['slideshow'=>$slideshows,]);
-    }
-    
-=======
 {
     function index (){
         return view('admin.slideshow.index');
@@ -43,7 +28,6 @@ class SlideshowController extends Controller
         ]);
     }
 
->>>>>>> e649f5a4a1fa6921ef02e9ae2df5cf078ea20e22
     function enableDisable(Request $request,String $id,String $action)
     {
         $slideshow = Slideshow::find($id);
