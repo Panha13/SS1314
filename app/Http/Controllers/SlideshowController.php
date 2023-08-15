@@ -75,25 +75,26 @@ class SlideshowController extends Controller
         return response()->json(['slideshows' => $slideshows]);
     }
 
-    function delete(Request $request, $id)
+    public function delete(string $id, Request $request): RedirectResponse
     {
         $slideshow = Slideshow::find($id);
         if ($slideshow != null) {
             $slideshow->delete();
             $iname = $slideshow['img'];
-            $image = public_path() . '/images/slideshows/' . $iname;
-            $thumbnail = public_path() . '/images/slideshows/thumbnail/' . $iname;
+            $image = public_path() . '/img/slideshows/' . $iname;
+            $thumbnail = public_path() . '/img/slideshows/thumbnail/' . $iname;
             if (file_exists($image)) {
                 unlink($image);
             }
             if (file_exists($thumbnail)) {
                 unlink($thumbnail);
             }
-            return response()->json(['success' => true]);
+            return Redirect::route('admin.slideshow')->with('success', 'A Slideshow has been deleted successfully!');
         } else {
-            return response()->json(['success' => false, 'message' => 'Slideshow not found!']);
+            return Redirect::route('admin.slideshow')->with('fail', 'Slideshow not found!');
         }
     }
+
 
 
 

@@ -37,11 +37,12 @@ function showSlideshow(page) {
     });
 }
 
-
 function toggleSlideshow(element) {
     // console.log('element:', element);
     var id = $(element).data('id');
+    console.log(id);
     var action = $(element).data('action');
+    console.log(action);
     $.ajax({
         url: '/admins/slideshow/endisable/' + id + '/' + action,
         type: 'GET',
