@@ -46,14 +46,14 @@
                     <div class="modal-header">
                       <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <span class="close" data-dismiss="modal">&times;</span>
                       </button>
                     </div>
                     <div class="modal-body">
-                      Are sure want to delete this slideshow?
+                      Are sure want to delete this slideshow? 
                     </div>
                     <div class="modal-footer">                    
-                      <button type="button" class="btn btn-primary">Yes</button>
+                      <button type="button" class="btn btn-primary" id="deleteSlideshow">Yes</button>
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                   </div>

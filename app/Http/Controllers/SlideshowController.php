@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Slideshow;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 use Image;
 class SlideshowController extends Controller
 {
@@ -75,7 +73,7 @@ class SlideshowController extends Controller
         return response()->json(['slideshows' => $slideshows]);
     }
 
-    public function delete(string $id, Request $request): RedirectResponse
+    function delete(string $id, Request $request): Response|JsonResponse
     {
         $slideshow = Slideshow::find($id);
         if ($slideshow != null) {
@@ -89,11 +87,26 @@ class SlideshowController extends Controller
             if (file_exists($thumbnail)) {
                 unlink($thumbnail);
             }
-            return Redirect::route('admin.slideshow')->with('success', 'A Slideshow has been deleted successfully!');
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'A Slideshow has been deleted successfully!'
+                ]);
+            } else {
+                return Redirect::route('admin.slideshow')->with('success', 'A Slideshow has been deleted successfully!');
+            }
         } else {
-            return Redirect::route('admin.slideshow')->with('fail', 'Slideshow not found!');
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Slideshow not found!'
+                ]);
+            } else {
+                return Redirect::route('admin.slideshow')->with('fail', 'Slideshow not found!');
+            }
         }
     }
+
 
 
 

@@ -21,7 +21,7 @@
                 <i class="align-middle" data-feather="arrow-down"></i>
             </a>
             {{-- Delete slideshow --}}
-            <a href="#" data-toggle="modal" data-target="#deleteModal" data-id="{{ $slideshow['ssid'] }}">
+            <a class="text-decoration-none delete" href="#" data-id="{{ $slideshow['ssid'] }}">
                 <i class="align-middle" data-feather="trash"></i>
             </a>
 
