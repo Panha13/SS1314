@@ -92,8 +92,6 @@ class SlideshowController extends Controller
                     'success' => true,
                     'message' => 'A Slideshow has been deleted successfully!'
                 ]);
-            } else {
-                return Redirect::route('admin.slideshow')->with('success', 'A Slideshow has been deleted successfully!');
             }
         } else {
             if ($request->ajax()) {
@@ -101,8 +99,6 @@ class SlideshowController extends Controller
                     'success' => false,
                     'message' => 'Slideshow not found!'
                 ]);
-            } else {
-                return Redirect::route('admin.slideshow')->with('fail', 'Slideshow not found!');
             }
         }
     }
