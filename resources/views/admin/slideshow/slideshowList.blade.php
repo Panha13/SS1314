@@ -1,5 +1,5 @@
 @foreach ($slideshows as $index => $slideshow)
-    <tr>
+    <tr class="slideshow-row">
         <td>{{ ($slideshows->currentPage() - 1) * $slideshows->perPage() + $loop->iteration }}</td>
         <td><img src={{ URL::asset('images/slideshows/thumbnail/' . $slideshow->img) }}></td>
         <td>{{ $slideshow->title }}</td>
@@ -33,6 +33,5 @@
         </td>
     </tr>
     
-
 @endforeach
 

@@ -8,20 +8,34 @@ $(document).ready(function() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+    deleteSlideshow();
 });
-$(document).on('click', '.delete', function(event){
-    event.preventDefault(); 
-    var id = $(this).data('id');
-    $('#deleteModal').modal('show');
-    $('#deleteSlideshow').val(id);
-});
-$('#deleteSlideshow').click(function(){
-    var id = $(this).val();
-    $.post('/admins/slideshow/delete/' + id, {id: id}, function() {
-        $('#deleteModal').modal('hide');
-        showSlideshow();
-    })
-});
+function deleteSlideshow() {
+    $(document).on('click', '.delete', function(event){
+        event.preventDefault(); 
+        var id = $(this).data('id');
+        $('#deleteModal').modal('show');
+        $('#deleteSlideshow').val(id);
+    });
+
+    $('#deleteSlideshow').click(function(){
+        var id = $(this).val();
+        $.ajax({
+            url: '/admins/slideshow/delete/' + id,
+            type: 'POST',
+            data: {id: id},
+            success: function() {
+                $('#deleteModal').modal('hide');
+                if ($('.slideshow-row').length === 1 && $('.pagination .active').prev().length > 0) {
+                    $('.pagination .active').prev().find('a').trigger('click');
+                } else {
+                    showSlideshow();
+                }
+            }
+        });
+    });
+}
+
 
 function handlePopstate() {
     window.addEventListener('popstate', function(event) {
@@ -113,23 +127,4 @@ function moveUpDown(event, element) {
     });
 }
 
-
-// function deleteSlideshow(slideshowId) {
-//     // Show the delete modal
-//     $('#deleteModal').modal('show');
-//     // When the user clicks on the "Yes" button in the delete modal
-//     $('#deleteSlideshow').on('click', function() {
-//         // Send an AJAX request to the server to delete the slideshow
-//         $.ajax({
-//             url: '/admins/slideshow/delete/' + slideshowId,
-//             type: 'POST',
-//             success: function(response) {
-//                 // Close the delete modal
-//                 $('#deleteModal').modal('hide');
-//                 // Call the showslideshow() function to update data on view side
-//                 showslideshow();
-//             }
-//         });
-//     });
-// }
 
