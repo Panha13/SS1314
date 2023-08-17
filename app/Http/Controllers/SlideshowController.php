@@ -73,7 +73,7 @@ class SlideshowController extends Controller
         return response()->json(['slideshows' => $slideshows]);
     }
 
-    function delete(string $id, Request $request): Response|JsonResponse
+    function delete(string $id, Request $request)
     {
         $slideshow = Slideshow::find($id);
         if ($slideshow != null) {
@@ -145,6 +145,7 @@ class SlideshowController extends Controller
             return redirect()->route('admin.slideshow', ['page'=>$request->page]);
         }
     }
+    
     function edit($id)
     {
         $slideshow = Slideshow::find($id);

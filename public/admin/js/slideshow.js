@@ -10,32 +10,6 @@ $(document).ready(function() {
     });
     deleteSlideshow();
 });
-function deleteSlideshow() {
-    $(document).on('click', '.delete', function(event){
-        event.preventDefault(); 
-        var id = $(this).data('id');
-        $('#deleteModal').modal('show');
-        $('#deleteSlideshow').val(id);
-    });
-
-    $('#deleteSlideshow').click(function(){
-        var id = $(this).val();
-        $.ajax({
-            url: '/admins/slideshow/delete/' + id,
-            type: 'POST',
-            data: {id: id},
-            success: function() {
-                $('#deleteModal').modal('hide');
-                if ($('.slideshow-row').length === 1 && $('.pagination .active').prev().length > 0) {
-                    $('.pagination .active').prev().find('a').trigger('click');
-                } else {
-                    showSlideshow();
-                }
-            }
-        });
-    });
-}
-
 
 function handlePopstate() {
     window.addEventListener('popstate', function(event) {
@@ -51,7 +25,6 @@ function pagination() {
         history.pushState(null, null, '?page=' + page);
     });
 }
-
 
 function showSlideshow(page) {
     if (!page) {
@@ -126,5 +99,32 @@ function moveUpDown(event, element) {
         }
     });
 }
+
+function deleteSlideshow() {
+    $(document).on('click', '.delete', function(event){
+        event.preventDefault(); 
+        var id = $(this).data('id');
+        $('#deleteModal').modal('show');
+        $('#deleteSlideshow').val(id);
+    });
+
+    $('#deleteSlideshow').click(function(){
+        var id = $(this).val();
+        $.ajax({
+            url: '/admins/slideshow/delete/' + id,
+            type: 'POST',
+            data: {id: id},
+            success: function() {
+                $('#deleteModal').modal('hide');
+                if ($('.slideshow-row').length === 1 && $('.pagination .active').prev().length > 0) {
+                    $('.pagination .active').prev().find('a').trigger('click');
+                } else {
+                    showSlideshow();
+                }
+            }
+        });
+    });
+}
+
 
 
