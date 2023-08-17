@@ -103,10 +103,6 @@ class SlideshowController extends Controller
         }
     }
 
-
-
-
-
     function form(Request $request)
     {
         return view('admin.slideshow.form');
