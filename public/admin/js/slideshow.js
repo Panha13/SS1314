@@ -13,9 +13,21 @@ $(document).ready(function() {
 
 function handlePopstate() {
     window.addEventListener('popstate', function(event) {
-        showSlideshow();
+        if (event.state) {
+            if (event.state.page === 'form') {
+                // Handle form page
+                if (event.state.url) {
+                    loadFormContent(event.state.url); // Load the form content
+                }
+            } else {
+                // Handle list slideshow page
+                showSlideshow();
+            }
+        }
     });
 }
+
+
 
 function pagination() {
     $(document).on('click', '.pagination a', function(event) {
@@ -125,6 +137,42 @@ function deleteSlideshow() {
         });
     });
 }
+
+function loadForm(event) {
+    event.preventDefault(); // Prevent the default action of the anchor link
+    
+    var route = $(event.currentTarget).attr('href'); // Get the URL from the anchor link
+    
+    // Make an AJAX request to fetch the form content
+    $.ajax({
+        url: route,
+        type: 'GET',
+        success: function(data) {
+            $('main.content').html(data.data);
+            
+            // Update the URL in the browser's address bar and push a new history state
+            history.pushState({ page: 'form', url: route }, '', route);
+        }
+    });
+}
+
+function loadFormContent(url) {
+    $.ajax({
+        url: url,
+        type: 'GET',
+        success: function(data) {
+            $('main.content').html(data.data);
+        }
+    });
+}
+
+
+
+
+
+
+
+
 
 
 

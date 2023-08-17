@@ -105,7 +105,9 @@ class SlideshowController extends Controller
 
     function form(Request $request)
     {
-        return view('admin.slideshow.form');
+        return response()->json([
+            'data' => view('admin.slideshow.form')->render(),
+        ]);
     }
     function add(Request $request)
     {
@@ -145,7 +147,7 @@ class SlideshowController extends Controller
             return redirect()->route('admin.slideshow', ['page'=>$request->page]);
         }
     }
-    
+
     function edit($id)
     {
         $slideshow = Slideshow::find($id);
