@@ -32,7 +32,7 @@ Route::get('/admins', [AdminController::class, 'index'])->middleware('is_admin')
 Auth::routes();
 
 Route::get('/admins/slideshow', [SlideshowController::class, 'index'])->name('admin.slideshow')->middleware('is_admin');
-Route::get('/admins/slideshow/slideshowPage', [SlideshowController::class, 'slideshowPage'])->name('admin.slideshow.slideshowPage')->middleware('is_admin');
+//Route::get('/admins/slideshow/slideshowPage', [SlideshowController::class, 'slideshowPage'])->name('admin.slideshow.slideshowPage')->middleware('is_admin');
 Route::get('/admins/slideshow/getSlideshow', [SlideshowController::class, 'getSlideshow'])->name('admin.slideshow.get')->middleware('is_admin');
 
 Route::get('/admins/slideshow/endisable/{id}/{action}', [SlideshowController::class, 'enableDisable'])->name('admin.slideshow.enabledisable');

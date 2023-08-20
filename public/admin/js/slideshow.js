@@ -14,17 +14,29 @@ function pagination() {
     });
 }
 
-function loadSlideshowPage() {
+function loadPageContent(url) {
     $.ajax({
-        url: '/admins/slideshow/slideshowPage', // URL to the route that returns the view
-        type: 'GET',
-        success: function(data) {
-            $('main.content').html(data);
-            showSlideshow();
-            //deleteSlideshow();
+        url: url,
+        method: 'GET',
+        success: function (response) {
+            $('.content').html(response.content);
+            history.pushState(null, null, url);
+        },
+        error: function (xhr) {
+            console.log(xhr.responseText);
         }
     });
 }
+
+function loadSlideshowPage() {
+    console.log('Loading slideshowPage');
+    loadPageContent('/admins/slideshow');
+}
+
+function loadForm() {
+    loadPageContent('/admins/slideshow/form');
+}
+
 
 function showSlideshow(page) {
     if (!page) {
@@ -118,16 +130,5 @@ function deleteSlideshow(id) {
                 }
             }
         });
-    });
-}
-
-function loadForm() {
-    $.ajax({
-        url: '/admins/slideshow/form',
-        type: 'GET',
-        success: function(data) {
-            $('main.content').html(data);
-            history.pushState(null, null, '/admins/slideshow/form');
-        }
     });
 }

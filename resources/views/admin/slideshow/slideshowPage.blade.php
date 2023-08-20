@@ -1,6 +1,6 @@
 <div class="container-fluid p-0">
     <h1 class="h3 mb-3 float-start">Slideshow</h1>
-    <a href="#" class="btn btn-primary float-end" onclick="event.preventDefault(); loadForm()">Add Slideshow</a>
+    <button class="btn btn-primary float-end" onclick="loadForm()">Add Slideshow</button>
     <div style="clear:both"></div>
     @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
