@@ -32,9 +32,7 @@ Route::get('/admins', [AdminController::class, 'index'])->middleware('is_admin')
 Auth::routes();
 
 Route::get('/admins/slideshow', [SlideshowController::class, 'index'])->name('admin.slideshow')->middleware('is_admin');
-Route::get('/admins/slideshow/slideshowPage', [SlideshowController::class, 'slideshowPage'])->name('admin.slideshow.slideshowPage')->middleware('is_admin');
 Route::get('/admins/slideshow/getSlideshow', [SlideshowController::class, 'getSlideshow'])->name('admin.slideshow.get')->middleware('is_admin');
-
 Route::get('/admins/slideshow/endisable/{id}/{action}', [SlideshowController::class, 'enableDisable'])->name('admin.slideshow.enabledisable');
 Route::get('/admins/slideshow/moveupdown/{id}/{action}', [SlideshowController::class, 'moveUpDown'])->name('admin.slideshow.moveupdown');
 Route::post('/admins/slideshow/delete/{id}', [SlideshowController::class, 'delete'])->name('admin.slideshow.delete');
@@ -42,6 +40,11 @@ Route::get('/admins/slideshow/form', [SlideshowController::class, 'form'])->name
 Route::post('/admins/slideshow/add', [SlideshowController::class, 'add'])->name('admin.slideshow.add');
 Route::get('/admins/slideshow/edit/{id}', [SlideshowController::class, 'edit'])->name('admin.slideshow.edit');
 Route::post('/admins/slideshow/update', [SlideshowController::class, 'update'])->name('admin.slideshow.update');
+
+// Product
+Route::get('/admins/product', [ProductController::class, 'index'])->name('admin.product')->middleware('is_admin');
+Route::get('/admins/product/getProduct', [ProductController::class, 'getProduct'])->name('admin.product.get')->middleware('is_admin');
+
 // Route::get('/my-data', 'MyHomeController@getData');
 
 // Route::get('language/{locale}', function ($locale) {
