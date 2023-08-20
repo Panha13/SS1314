@@ -1,6 +1,6 @@
 <div class="container-fluid p-0">
     <h1 class="h3 mb-3 float-start">Slideshow</h1>
-    <a href="{{ route('admin.slideshow.form') }}" class="btn btn-primary float-end">Add Slideshow</a>
+    <a href="#" class="btn btn-primary float-end" onclick="event.preventDefault(); loadForm()">Add Slideshow</a>
     <div style="clear:both"></div>
     @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">

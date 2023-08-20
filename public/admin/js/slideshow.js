@@ -1,15 +1,3 @@
-$(document).ready(function() {
-    showSlideshow();
-    // Add event listener for click event on pagination links
-    pagination();
-    handlePopstate();
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-    deleteSlideshow();
-});
 
 function handlePopstate() {
     window.addEventListener('popstate', function(event) {
@@ -23,6 +11,18 @@ function pagination() {
         var page = $(this).attr('href').split('page=')[1];
         showSlideshow(page);
         history.pushState(null, null, '?page=' + page);
+    });
+}
+
+function loadSlideshowPage() {
+    $.ajax({
+        url: '/admins/slideshow/slideshowPage', // URL to the route that returns the view
+        type: 'GET',
+        success: function(data) {
+            $('main.content').html(data);
+            showSlideshow();
+            //deleteSlideshow();
+        }
     });
 }
 
@@ -100,16 +100,11 @@ function moveUpDown(event, element) {
     });
 }
 
-function deleteSlideshow() {
-    $(document).on('click', '.delete', function(event){
-        event.preventDefault(); 
-        var id = $(this).data('id');
-        $('#deleteModal').modal('show');
-        $('#deleteSlideshow').val(id);
-    });
+function deleteSlideshow(id) {
+    $('#deleteModal').modal('show');
+    $('#deleteSlideshow').val(id);
 
-    $('#deleteSlideshow').click(function(){
-        var id = $(this).val();
+    $('#deleteSlideshow').off('click').on('click', function() {
         $.ajax({
             url: '/admins/slideshow/delete/' + id,
             type: 'POST',
@@ -126,5 +121,13 @@ function deleteSlideshow() {
     });
 }
 
-
-
+function loadForm() {
+    $.ajax({
+        url: '/admins/slideshow/form',
+        type: 'GET',
+        success: function(data) {
+            $('main.content').html(data);
+            history.pushState(null, null, '/admins/slideshow/form');
+        }
+    });
+}

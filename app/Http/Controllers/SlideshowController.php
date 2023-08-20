@@ -13,7 +13,9 @@ class SlideshowController extends Controller
     function index (){
         return view('admin.slideshow.index');
     }
-
+    function slideshowPage() {
+        return view('admin.slideshow.slideshowPage');
+    }
     function getSlideshow()
     {
         $slideshows = Slideshow::orderBy('ssorder', 'asc')->paginate(2);
