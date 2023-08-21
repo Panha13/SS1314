@@ -108,4 +108,3 @@ function deleteSlideshow(id) {
         });
     });
 }
-
