@@ -67,7 +67,7 @@
             </div>
             @if (isset($slideshow))
                 <div class="form-group">
-                    <img src={{ URL::asset('img/slideshows/thumbnail/' . $slideshow->img) }}>
+                    <img src={{ URL::asset('images/slideshows/thumbnail/' . $slideshow->img) }}>
                     <p>{{ $slideshow->img }}</p>
                 </div>
             @endif

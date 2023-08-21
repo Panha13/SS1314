@@ -78,5 +78,10 @@
             
         });
     </script>
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Link to the slideshow.js file -->
+    <script src="{{ asset('/admin/js/slideshow.js') }}"></script>
     
 @endsection

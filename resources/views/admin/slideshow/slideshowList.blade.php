@@ -2,9 +2,9 @@
     <tr class="slideshow-row">
         <td>{{ ($slideshows->currentPage() - 1) * $slideshows->perPage() + $loop->iteration }}</td>
         <td><img src={{ URL::asset('images/slideshows/thumbnail/' . $slideshow->img) }}></td>
-        <td>{{ $slideshow->title }}</td>
-        <td>{{ $slideshow['subtitle'] }}</td>
-        <td>{{ $slideshow->text }}</td>
+        <td class="text-sm-short">{{ $slideshow->title }}</td>
+        <td class="text-sm-short">{{ $slideshow['subtitle'] }}</td>
+        <td class="text-short">{{ $slideshow->text }}</td>
         <td>{{ $slideshow->link }}</td>
         <td>
             {{-- Toggle eye of open --}}

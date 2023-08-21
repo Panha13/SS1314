@@ -29,9 +29,7 @@
                                 <a href="{{ $slideshow->link }}" class="btn btn-default get">{{__('Get it now')}}</a>
                             </div>
                             <div class="col-sm-6">
-                                <img src="images/slideshows/{{ $slideshow->img }}" class="girl img-responsive"
-                                    alt="" />
-
+                                <img src="images/slideshows/{{ $slideshow->img }}" class="girl img-responsive" alt=""/>
                             </div>
                         </div>
                         @endforeach

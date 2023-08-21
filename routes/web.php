@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MyHomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SlideshowController;
-
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CartController;
 
 use Illuminate\Http\Request;
@@ -66,3 +67,23 @@ Route::get('admins/slideshow/slideshowform', function () {
 
 Route::get('cart', [CartController::class, 'index'])->name('cart');
 Route::post('cart', [CartController::class, 'addToCart'])->name('cart.store');
+
+//category
+Route::group(['prefix' => 'admins/category', 'middleware' => 'is_admin', 'as' => 'admin.category.'], function () {
+    Route::get('/', [CategoryController::class, 'listAll'])->name('listAll');
+    Route::get('/delete/{id}', [CategoryController::class, 'delete'])->name('delete');
+    Route::post('/add', [CategoryController::class, 'add'])->name('add');
+    Route::post('/update', [CategoryController::class, 'update'])->name('update');
+});
+
+
+//group route product
+Route::group(['prefix' => 'admins/product', 'middleware' => 'is_admin', 'as' => 'admin.product.'], function () {
+    Route::get('/', [ProductController::class, 'listAll'])->name('listAll');
+    Route::get('/delete/{id}', [ProductController::class, 'delete'])->name('delete');
+    Route::post('/add', [ProductController::class, 'add'])->name('add');
+    Route::get('/edit/{id}', [ProductController::class, 'edit'])->name('edit');
+    Route::post('/update', [ProductController::class, 'update'])->name('update');
+});
+
+//end route product

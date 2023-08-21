@@ -15,15 +15,19 @@ class MyHomeController extends Controller
         $slideshows = Slideshow::where('enable', '1')
                         ->orderBy('ssorder')
                         ->get();
-        $featuredproducts = Product::where('featured', '1')->get();
+        $featuredproducts = Product::where('featured', '1')->paginate(9);
         $categories = Category::all();
         return view('home', compact('slideshows', 'featuredproducts', 'categories'));
     }
+
     function shop()
     {
         $categories = Category::all();
-        return view('shop')->with('categories', $categories);
+        $products = Product::paginate(9); // Change the number 9 to the desired number per page
+
+         return view('shop', compact('categories', 'products'));
     }
+
     function getData()
     {
         // Retrieve the updated data from the database

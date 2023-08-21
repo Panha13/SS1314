@@ -14,6 +14,14 @@ class CartController extends Controller
     }
     public function addToCart(Request $request)
     {
+        $request->validate([
+            'id' => 'required',
+            'name' => 'required',
+            'price' => 'required',
+            'quantity' => 'required|numeric|min:1', // Assuming quantity should be a positive number
+            'image' => 'required',
+        ]);
+
         Cart::add([
             'id' => $request->id,
             'name' => $request->name,
@@ -23,8 +31,10 @@ class CartController extends Controller
                 'image' => $request->image,
             )
         ]);
+
         session()->flash('success', 'Product is Added to Cart Successfully !');
 
         return redirect()->route('cart');
     }
+
 }

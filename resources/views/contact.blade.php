@@ -5,8 +5,7 @@
         <div class="row">    		
             <div class="col-sm-12">    			   			
                 <h2 class="title text-center">{{__('Contact')}} <strong>{{__('Us')}}</strong></h2>
-                <div id="gmap" class="contact-map">
-                </div>
+                
             </div>			 		
         </div>    	
         <div class="row">  	

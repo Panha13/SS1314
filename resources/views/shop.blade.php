@@ -3,144 +3,35 @@
 <div class="col-sm-9 padding-right">
 	<div class="features_items"><!--features_items-->
 		<h2 class="title text-center">{{ __('Features Items') }}</h2>
+		@foreach ($products as $product)
 		<div class="col-sm-4">
 			<div class="product-image-wrapper">
 				<div class="single-products">
-					<div class="productinfo text-center">
-						<img src="images/shop/product12.jpg" alt="" />
-						<h2>$56</h2>
-						<p>{{ __('Easy Polo Black Edition') }}</p>
-						<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>{{ __('Add to cart') }}</a>
-					</div>
-					<div class="product-overlay">
-						<div class="overlay-content">
-							<h2>$56</h2>
-							<p>{{ __('Easy Polo Black Edition') }}</p>
-							<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>{{ __('Add to cart') }}</a>
+					<form action="{{ route('cart.store') }}" method="POST" enctype="multipart/form-data">
+						@csrf
+						<!-- Input fields here -->
+						<div class="productinfo text-center">
+							<div style="position: relative; width: 100%; height: 0; padding-bottom: 100%;">
+								<img src="images/products/{{ $product->pimg }}" alt="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain;">
+							</div>
+							<h2>${{ $product->pprice }}</h2>
+							<p>{{ $product->pname }}</p>
+							<button type="submit" class="btn btn-default add-to-cart">
+								<i class="fa fa-shopping-cart"></i>
+								{{ __('Add to cart') }}
+							</button>
 						</div>
-					</div>
-				</div>
-				<div class="choose">
-					<ul class="nav nav-pills nav-justified">
-						<li><a href=""><i class="fa fa-plus-square"></i>{{ __('Add to wishlist') }}</a></li>
-						<li><a href=""><i class="fa fa-plus-square"></i>{{ __('Add to compare') }}</a></li>
-					</ul>
+					</form>
 				</div>
 			</div>
-			
 		</div>
-		<div class="col-sm-4">
-			<div class="product-image-wrapper">
-				<div class="single-products">
-					<div class="productinfo text-center">
-						<img src="images/shop/product12.jpg" alt="" />
-						<h2>$56</h2>
-						<p>{{ __('Easy Polo Black Edition') }}</p>
-						<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>{{ __('Add to cart') }}</a>
-					</div>
-					<div class="product-overlay">
-						<div class="overlay-content">
-							<h2>$56</h2>
-							<p>{{ __('Easy Polo Black Edition') }}</p>
-							<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>{{ __('Add to cart') }}</a>
-						</div>
-					</div>
-				</div>
-				<div class="choose">
-					<ul class="nav nav-pills nav-justified">
-						<li><a href=""><i class="fa fa-plus-square"></i>{{ __('Add to wishlist') }}</a></li>
-						<li><a href=""><i class="fa fa-plus-square"></i>{{ __('Add to compare') }}</a></li>
-					</ul>
-				</div>
-			</div>
-			
-		</div>
-		<div class="col-sm-4">
-			<div class="product-image-wrapper">
-				<div class="single-products">
-					<div class="productinfo text-center">
-						<img src="images/shop/product12.jpg" alt="" />
-						<h2>$56</h2>
-						<p>{{ __('Easy Polo Black Edition') }}</p>
-						<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>{{ __('Add to cart') }}</a>
-					</div>
-					<div class="product-overlay">
-						<div class="overlay-content">
-							<h2>$56</h2>
-							<p>{{ __('Easy Polo Black Edition') }}</p>
-							<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>{{ __('Add to cart') }}</a>
-						</div>
-					</div>
-				</div>
-				<div class="choose">
-					<ul class="nav nav-pills nav-justified">
-						<li><a href=""><i class="fa fa-plus-square"></i>{{ __('Add to wishlist') }}</a></li>
-						<li><a href=""><i class="fa fa-plus-square"></i>{{ __('Add to compare') }}</a></li>
-					</ul>
-				</div>
-			</div>
-			
-		</div>
-		<div class="col-sm-4">
-			<div class="product-image-wrapper">
-				<div class="single-products">
-					<div class="productinfo text-center">
-						<img src="images/shop/product12.jpg" alt="" />
-						<h2>$56</h2>
-						<p>{{ __('Easy Polo Black Edition') }}</p>
-						<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>{{ __('Add to cart') }}</a>
-					</div>
-					<div class="product-overlay">
-						<div class="overlay-content">
-							<h2>$56</h2>
-							<p>{{ __('Easy Polo Black Edition') }}</p>
-							<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>{{ __('Add to cart') }}</a>
-						</div>
-					</div>
-				</div>
-				<div class="choose">
-					<ul class="nav nav-pills nav-justified">
-						<li><a href=""><i class="fa fa-plus-square"></i>{{ __('Add to wishlist') }}</a></li>
-						<li><a href=""><i class="fa fa-plus-square"></i>{{ __('Add to compare') }}</a></li>
-					</ul>
-				</div>
-			</div>
-			
-		</div>
-		<div class="col-sm-4">
-			<div class="product-image-wrapper">
-				<div class="single-products">
-					<div class="productinfo text-center">
-						<img src="images/shop/product12.jpg" alt="" />
-						<h2>$56</h2>
-						<p>{{ __('Easy Polo Black Edition') }}</p>
-						<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>{{ __('Add to cart') }}</a>
-					</div>
-					<div class="product-overlay">
-						<div class="overlay-content">
-							<h2>$56</h2>
-							<p>{{ __('Easy Polo Black Edition') }}</p>
-							<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>{{ __('Add to cart') }}</a>
-						</div>
-					</div>
-				</div>
-				<div class="choose">
-					<ul class="nav nav-pills nav-justified">
-						<li><a href=""><i class="fa fa-plus-square"></i>{{ __('Add to wishlist') }}</a></li>
-						<li><a href=""><i class="fa fa-plus-square"></i>{{ __('Add to compare') }}</a></li>
-					</ul>
-				</div>
-			</div>
-			
-		</div>
+		
+		@endforeach
 		<!-- Other product blocks go here -->
 		
 	</div><!--features_items-->
-	<ul class="pagination">
-		<li class="active"><a href="">1</a></li>
-		<li><a href="">2</a></li>
-		<li><a href="">3</a></li>
-		<li><a href="">&raquo;</a></li>
-	</ul>
+	<div class="pagination justify-content-center">
+		{{ $products->links("pagination::bootstrap-4") }}
+	</div>
 </div>
 @endsection
