@@ -3,8 +3,8 @@
     <link rel="stylesheet" href="{{ asset('admin/css/custom.css') }}">
     <main class="content">
         <div class="container-fluid p-0">
-            <h1 class="h3 mb-3 float-start">Slideshow</h1>
-            <a href="{{route('admin.slideshow.form')}}" class="btn btn-primary float-end">Add Slideshow</a>
+            <h1 class="h3 mb-3 float-start">Product</h1>
+            <a href="{{route('admin.slideshow.form')}}" class="btn btn-primary float-end">Add product</a>
             <div style="clear:both"></div>
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -26,13 +26,14 @@
                 <thead>
                     <th>No</th>
                     <th>Image</th>
-                    <th>Title</th>
-                    <th>Subtitle</th>
-                    <th>Text</th>
-                    <th>Link</th>
+                    <th>Product name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>catagory</th>
+                    <th>Quanity</th>
                     <th>Action</th>
                 </thead>
-                <tbody id="slideshowBody">
+                <tbody id="productBody">
                 </tbody>
         
             </table>

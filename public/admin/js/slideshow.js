@@ -14,18 +14,6 @@ function pagination() {
     });
 }
 
-function loadSlideshowPage() {
-    $.ajax({
-        url: '/admins/slideshow/slideshowPage', // URL to the route that returns the view
-        type: 'GET',
-        success: function(data) {
-            $('main.content').html(data);
-            showSlideshow();
-            //deleteSlideshow();
-        }
-    });
-}
-
 function showSlideshow(page) {
     if (!page) {
         var urlParams = new URLSearchParams(window.location.search);
@@ -121,13 +109,3 @@ function deleteSlideshow(id) {
     });
 }
 
-function loadForm() {
-    $.ajax({
-        url: '/admins/slideshow/form',
-        type: 'GET',
-        success: function(data) {
-            $('main.content').html(data);
-            history.pushState(null, null, '/admins/slideshow/form');
-        }
-    });
-}

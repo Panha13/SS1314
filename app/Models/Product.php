@@ -19,4 +19,8 @@ class Product extends Model
         "cid",
         "quantity",
     ];
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'cid'); // 'cid' is the foreign key column in the products table
+    }
 }

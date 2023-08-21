@@ -5,16 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Slideshow;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 use Image;
 class SlideshowController extends Controller
 {
     function index (){
         return view('admin.slideshow.index');
-    }
-    function slideshowPage() {
-        return view('admin.slideshow.slideshowPage');
     }
     function getSlideshow()
     {
